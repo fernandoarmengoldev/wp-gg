@@ -2,7 +2,7 @@ import type { Db } from 'mongodb'
 
 import { getPositionsHandler, rebuildPositionsHandler } from './routes/champion-positions'
 import { getChampionStatsHandler } from './routes/champion-stats'
-import { getEloHandler, getMasteryHandler, getMatchHandler, getSummonerHandler } from './routes/summoner-handlers'
+import { getEloHandler, getMasteryHandler, getMatchHandler, getSummonerHandler } from './routes/summoner'
 import type { BunRouteRequest } from './types'
 
 // Build the Bun route table with the shared dependencies needed by each handler.

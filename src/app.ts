@@ -2,9 +2,9 @@ import 'dotenv/config'
 
 import { printReadyBanner, printStartupBanner, printStatus } from './banner'
 import { getAppConfig } from './config'
-import { connectToDatabase } from './db'
-import { logRandomMatchesDisabled, startRandomMatchesJob } from './jobs/random-matches'
+import { connectToDatabase } from './db/db'
 import { createRoutes } from './routes'
+import { logRandomMatchesDisabled, startRandomMatchesJob } from './scripts/random-matches'
 
 // Create a JSON response with a custom HTTP status code.
 function createJsonResponse<T>(body: T, status = 200): Response {
