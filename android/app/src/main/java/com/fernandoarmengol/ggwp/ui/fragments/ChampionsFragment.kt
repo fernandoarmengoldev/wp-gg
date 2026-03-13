@@ -74,7 +74,7 @@ class ChampionsFragment : Fragment() {
     private fun loadData(){
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val callChampPosition = getRetrofitNodeJS().create(APIService::class.java).getChampPositionsNodeJS()
+                val callChampPosition = getRetrofitNodeJS().create(APIService::class.java).getRolesNodeJS()
                 if (callChampPosition.isSuccessful) {
                     activity?.runOnUiThread {
                         champions = championSummaryCD.toMutableList()

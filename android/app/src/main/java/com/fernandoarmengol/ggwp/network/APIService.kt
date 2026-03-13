@@ -11,10 +11,10 @@ import retrofit2.http.Url
 
 interface APIService {
     @GET
-    suspend fun getChampStadistics(@Url url:String): Response<ChampStadisticsNodeJS>
+    suspend fun getChampionStats(@Url url:String): Response<ChampStadisticsNodeJS>
 
-    @GET("position/")
-    suspend fun getChampPositionsNodeJS(): Response<List<ChampPositionsNodeJS>>
+    @GET("roles/")
+    suspend fun getRolesNodeJS(): Response<List<ChampPositionsNodeJS>>
 
     @GET
     suspend fun getChampCD(@Url url:String): Response<ChampCD>
@@ -41,7 +41,7 @@ interface APIService {
     suspend fun getMatchNodeJS(@Url url:String): Response<MatchNodeJS>
 
     @GET
-    suspend fun getMaestriesNodeJS(@Url url:String): Response<List<MaestriesNodeJS>>
+    suspend fun getMasteriesNodeJS(@Url url:String): Response<List<MaestriesNodeJS>>
 
     @GET
     suspend fun getEloNodeJS(@Url url:String): Response<List<EloNodeJS>>

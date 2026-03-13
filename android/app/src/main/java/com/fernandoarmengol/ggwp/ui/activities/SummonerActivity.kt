@@ -74,7 +74,7 @@ class SummonerActivity : AppCompatActivity() {
                     } else {
                         summoner = callSummonerNodeJS.body()!!
 
-                        val callChampMaestriesNodeJS = RetrofitHelper.getRetrofitNodeJS().create(APIService::class.java).getMaestriesNodeJS("maestry/${summoner.id}")
+                        val callChampMaestriesNodeJS = RetrofitHelper.getRetrofitNodeJS().create(APIService::class.java).getMasteriesNodeJS("mastery/${summoner.id}")
                         val callChampEloNodeJS = RetrofitHelper.getRetrofitNodeJS().create(APIService::class.java).getEloNodeJS("elo/${summoner.id}")
                         if (callChampMaestriesNodeJS.isSuccessful && callChampEloNodeJS.isSuccessful){
                             maestries = (callChampMaestriesNodeJS.body() as MutableList<MaestriesNodeJS>?)!!

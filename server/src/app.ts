@@ -4,7 +4,9 @@ import { printReadyBanner, printStartupBanner, printStatus } from './banner'
 import { getAppConfig } from './config'
 import { connectToDatabase } from './db/db'
 import { createRoutes } from './routes'
-import { logRandomMatchesDisabled, startRandomMatchesJob } from './scripts/random-matches'
+import { startDerivedDataJobs } from './scripts/derived_data'
+import { logRandomMatchesDisabled, startRandomMatchesJob } from './scripts/random_matches'
+import { ensureSeedMatch } from './scripts/seed_match'
 
 // Create a JSON response with a custom HTTP status code.
 function createJsonResponse<T>(body: T, status = 200): Response {
@@ -14,7 +16,7 @@ function createJsonResponse<T>(body: T, status = 200): Response {
 // Boot the database connection, optional background jobs, and the Bun HTTP server.
 async function startServer(): Promise<void> {
   // Load the validated runtime configuration for the application.
-  const { apiKey, getRandomMatches, port, randomMatchIntervalMs } = getAppConfig()
+  const { apiKey, getRandomMatches, port } = getAppConfig()
 
   await printStartupBanner()
   printStatus('DB', 'Connecting to database...', 'blue')
@@ -23,9 +25,15 @@ async function startServer(): Promise<void> {
   const db = await connectToDatabase()
   printStatus('DB', 'Connected', 'green')
 
+  // Seed the database with one recent match when starting from an empty state.
+  await ensureSeedMatch({ apiKey, db })
+
+  // Build cached derived data once at boot and refresh it on a fixed background interval.
+  await startDerivedDataJobs(db)
+
   // Start or skip the background match collector based on the environment flag.
   if (getRandomMatches) {
-    startRandomMatchesJob(db, apiKey, randomMatchIntervalMs)
+    startRandomMatchesJob(db, apiKey)
   } else {
     logRandomMatchesDisabled()
   }

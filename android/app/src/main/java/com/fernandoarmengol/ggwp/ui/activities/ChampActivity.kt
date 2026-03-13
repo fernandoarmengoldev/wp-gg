@@ -46,7 +46,7 @@ class ChampActivity : AppCompatActivity() {
     private fun loadData() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val callChampStadisticsNodeJS = getRetrofitNodeJS().create(APIService::class.java).getChampStadistics("matchesFromChamp/$idChamp")
+                val callChampStadisticsNodeJS = getRetrofitNodeJS().create(APIService::class.java).getChampionStats("champion/$idChamp")
                 val callChampCD = getRetrofitComunityDragon(getString(R.string.url_main_cd)).create(APIService::class.java).getChampCD("champions/$idChamp.json")
                 if (
                     callChampStadisticsNodeJS.isSuccessful &&

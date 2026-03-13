@@ -1,17 +1,12 @@
-import type { MatchParticipant, NumberMap } from '../types'
+import type { MatchParticipant, NumberMap } from '../../types'
 
-export type RankedEntry = {
-  name: string
-  value: number
-}
+import type { RankedEntry } from './types'
 
-// Increase or decrease a numeric counter stored inside a string-keyed map.
 export function incrementMap(map: NumberMap, key: number | string, amount = 1): void {
   const normalizedKey = String(key)
   map[normalizedKey] = (map[normalizedKey] ?? 0) + amount
 }
 
-// Convert ranked entries into percentage strings based on the provided total.
 export function createPercentageEntries(entries: RankedEntry[], total: number): Array<{ value: string; porcentaje: string }> {
   return entries.map(entry => ({
     value: entry.name,
@@ -19,16 +14,13 @@ export function createPercentageEntries(entries: RankedEntry[], total: number): 
   }))
 }
 
-// Serialize all rune selections for a participant into a comparable string key.
 export function buildRuneKey(participant: MatchParticipant): string {
   const runeParts: string[] = []
 
-  // Add the stat perk values first.
   Object.entries(participant.perks.statPerks).forEach(([statName, value]) => {
     runeParts.push(`${statName},${value}`)
   })
 
-  // Then add the style ids and each selected rune id.
   participant.perks.styles.forEach(style => {
     runeParts.push(String(style.style))
     style.selections.forEach(selection => {
@@ -36,11 +28,9 @@ export function buildRuneKey(participant: MatchParticipant): string {
     })
   })
 
-  // Join every rune fragment into a single stable map key.
   return runeParts.join(',')
 }
 
-// Return the highest-value entries from a numeric map.
 export function getTopEntries(numElem: number, hashMap: NumberMap): RankedEntry[] {
   return Object.entries(hashMap)
     .map(([name, value]) => ({ name, value }))
@@ -48,7 +38,6 @@ export function getTopEntries(numElem: number, hashMap: NumberMap): RankedEntry[
     .slice(0, numElem)
 }
 
-// Return the lowest-value entries from a numeric map.
 export function getBottomEntries(numElem: number, hashMap: NumberMap): RankedEntry[] {
   return Object.entries(hashMap)
     .map(([name, value]) => ({ name, value }))
